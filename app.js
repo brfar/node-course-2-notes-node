@@ -34,10 +34,11 @@ const argv = yargs
 	})
 	.help()
 	.argv;
-const command = argv._[0];
+	
+const command = argv._[0]; // refer to yargs.js
 
 if (command === 'add') {
-	const note = notes.addNotes(argv.title, argv.body);
+	const note = notes.addNotes(argv.title, argv.body); // refer to yargs.js
 	if (note) {
 		console.log('note created');
 		notes.logNote(note);

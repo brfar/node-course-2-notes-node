@@ -1,64 +1,64 @@
 const fs = require('fs');
 
+const fetchNotes = () => {
+	try {
+		const notesString = fs.readFileSync('notes-data.json');
+		return JSON.parse(notesString);
+	} catch (e) {
+		return [];
+	}
+};
 
+const saveNotes = notes => {
+	fs.writeFileSync('notes-data.json', JSON.stringify(notes));
+};
 
-// const fetchNotes = () => {
-// 	try {
-// 		const notesString = fs.readFileSync('notes-data.json');
-// 		return JSON.parse(notesString);
-// 	} catch (e) {
-// 		return [];
-// 	}
-// };
+const addNotes = (title, body) => {
+	const notes = fetchNotes();
+	const note = {
+		title,
+		body
+	};
 
-// const saveNotes = notes => {
-// 	fs.writeFileSync('notes-data.json', JSON.stringify(notes));
-// };
+	const duplicateNotes = notes.filter(note => note.title === title);
 
-// const addNotes = (title, body) => {
-// 	const notes = fetchNotes();
-// 	const note = {
-// 		title,
-// 		body
-// 	};
+	if (duplicateNotes.length === 0) {
+		notes.push(note);
+		saveNotes(notes);
+		return note;
+	}
+};
 
-// 	const duplicateNotes = notes.filter(note => note.title === title);
+const getAll = () => fetchNotes();
 
-// 	if (duplicateNotes.length === 0) {
-// 		notes.push(note);
-// 		saveNotes(notes);
-// 		return note;
-// 	}
-// };
+const getNote = title => {
+	const notes = fetchNotes();
+	const filteredNotes = notes.filter(note => note.title === title);
+	return filteredNotes[0];
+};
 
-// const getAll = () => fetchNotes();
+const removeNote = title => {
+	const notes = fetchNotes();
+	const filteredNotes = notes.filter(note => note.title !== title);
+	saveNotes(filteredNotes);
 
-// const getNote = title => {
-// 	const notes = fetchNotes();
-// 	const filteredNotes = notes.filter(note => note.title === title);
-// 	return filteredNotes[0];
-// };
+	return notes.length !== filteredNotes.length;
+};
 
-// const removeNote = title => {
-// 	const notes = fetchNotes();
-// 	const filteredNotes = notes.filter(note => note.title !== title);
-// 	saveNotes(filteredNotes);
+const logNote = note => {
+	debugger;
+	console.log('------------');
+	console.log(`title: ${note.title}`);
+	console.log(`body: ${note.body}`);
+};
 
-// 	return notes.length !== filteredNotes.length;
-// };
-
-// const logNote = note => {
-// 	debugger;
-// 	console.log('------------');
-// 	console.log(`title: ${note.title}`);
-// 	console.log(`body: ${note.body}`);
-// };
-
-// module.exports = {
-// 	addNotes,
-// 	getAll,
-// 	getNote,
-// 	removeNote,
-// 	fetchNotes,
-// 	logNote
-// };
+/* exporting all the functions in this file.
+* we could use 'addNotes: addNotes' but ES6 allows the syntax below! */
+module.exports = {
+	addNotes,
+	getAll,
+	getNote,
+	removeNote,
+	fetchNotes,
+	logNote
+};
