@@ -38,11 +38,13 @@ const argv = yargs
 const command = argv._[0]; // refer to yargs.js
 
 if (command === 'add') {
+	/* joga o resultado dentro da variável 'notes' pra depois verificar
+	se ela existe ou não no if/else */
 	const note = notes.addNotes(argv.title, argv.body); // refer to yargs.js
 	if (note) {
 		console.log('note created');
-		notes.logNote(note);
-	} else {
+		notes.logNote(note); // mostra a note no console
+	} else {  // if note == undefined
 		console.log('note title taken');
 	}
 } else if (command === 'list') {
