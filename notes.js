@@ -47,9 +47,9 @@ const addNotes = (title, body) => {
 const getAll = () => fetchNotes();
 
 const getNote = title => {
-	const notes = fetchNotes();
-	const filteredNotes = notes.filter(note => note.title === title);
-	return filteredNotes[0];
+	const notes = fetchNotes(); // puxa todas as notes
+	const filteredNotes = notes.filter(note => note.title === title); // joga nessa variável as notas com mesmo título
+	return filteredNotes[0]; // retorna apenas o primeiro elemento que pode ser o resultado ou undefined
 };
 
 const removeNote = title => {
